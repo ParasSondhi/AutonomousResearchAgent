@@ -4,7 +4,7 @@ import time
 import base64
 
 # Point to your local FastAPI backend
-API_URL = "http://localhost:8000"
+API_URL = "https://autonomousresearchagent.onrender.com"
 
 st.set_page_config(page_title="AI Researcher", page_icon="🕵️‍♂️")
 st.title("Autonomous Research Agent")
