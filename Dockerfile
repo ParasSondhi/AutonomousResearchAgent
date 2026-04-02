@@ -1,5 +1,5 @@
 # Use a lightweight Python Linux image
-FROM python:3.11-slim
+FROM python:3.11-slim-bullseye
 
 # Install the system-level wkhtmltopdf package
 RUN apt-get update && apt-get install -y wkhtmltopdf && rm -rf /var/lib/apt/lists/*
