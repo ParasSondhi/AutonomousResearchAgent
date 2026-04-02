@@ -1,0 +1,4 @@
+agent_behavior:
+  depth: "comprehensive"
+  output_format: "markdown_report"
+  target_audience: "executive_summary"

@@ -1,0 +1,14 @@
+# Security
+.env
+
+# Python caching
+__pycache__/
+*.pyc
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Output folders
+output/
