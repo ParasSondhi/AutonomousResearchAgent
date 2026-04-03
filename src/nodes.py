@@ -23,7 +23,7 @@ fallback_llm = ChatGoogleGenerativeAI(
 
 # 3. Create the Resilient Chain
 # If primary_llm throws an error (like HTTP 429 Rate Limit), it automatically routes to fallback_llm
-llm = primary_llm.with_fallbacks([fallback_llm])
+# llm = primary_llm.with_fallbacks([fallback_llm])
 class EvaluatorOutput(BaseModel):
     is_relevant: bool = Field(description="True if the scraped data provides enough information to satisfy the target intent. False if it is irrelevant or insufficient.")
     reasoning: str = Field(description="A 1-sentence explanation of WHY you are approving or rejecting this data.")
@@ -38,7 +38,9 @@ def planner_node(state: AgentState) -> AgentState:
     print(f"--- PLANNING FOR: {state['original_topic']} ---")
     
     # 1. Bind the LLM to our Pydantic model to guarantee structured JSON output
-    structured_llm = llm.with_structured_output(PlannerOutput)
+    primary_structured = primary_llm.with_structured_output(PlannerOutput)
+    fallback_structured = fallback_llm.with_structured_output(PlannerOutput)
+    structured_llm = primary_structured.with_fallbacks([fallback_structured])
     
     # 2. Build the system instructions
     sys_msg = SystemMessage(content="""You are an expert research director. 
@@ -75,7 +77,9 @@ def researcher_node(state: AgentState) -> AgentState:
     if user_feedback and "No user feedback provided" not in user_feedback:
         print(f"--- APPLYING HUMAN FEEDBACK: {user_feedback} ---")
         
-        structured_llm = llm.with_structured_output(PlannerOutput)
+        primary_structured = primary_llm.with_structured_output(PlannerOutput)
+        fallback_structured = fallback_llm.with_structured_output(PlannerOutput)
+        structured_llm = primary_structured.with_fallbacks([fallback_structured])
         
         sys_msg = SystemMessage(content="""You are a research assistant. 
         Update the search queries based STRICTLY on the user's new feedback. 
@@ -124,7 +128,9 @@ def evaluator_node(state: AgentState) -> AgentState:
     # Initialize attempt count if it doesn't exist
     current_attempts = state.get("attempt_count", 0) + 1
     
-    structured_llm = llm.with_structured_output(EvaluatorOutput)
+    primary_structured = primary_llm.with_structured_output(EvaluatorOutput)
+    fallback_structured = fallback_llm.with_structured_output(EvaluatorOutput)
+    structured_llm = primary_structured.with_fallbacks([fallback_structured])
     
     sys_msg = SystemMessage(content="""You are a Quality Assurance reviewer. 
     Look at the target intent and the scraped web data. Does the data actually answer the intent?
@@ -184,6 +190,7 @@ def analyzer_node(state: AgentState) -> AgentState:
     """)
     
     # 4. Call the LLM (standard string output, no Pydantic needed here)
+    llm = primary_llm.with_fallbacks([fallback_llm])
     response = llm.invoke([sys_msg, user_msg])
     
     # 5. Return the final markdown text
