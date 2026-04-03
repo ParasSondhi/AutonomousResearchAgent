@@ -13,7 +13,7 @@ from src.state import AgentState
 #     max_retries=1 # Don't waste time retrying if the limit is reached, just fail over
 # )
 primary_llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash", 
+    model="gemini-2.5-flash-lite", 
     temperature=0.2,
     max_retries=1
 )
