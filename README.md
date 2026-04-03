@@ -13,8 +13,9 @@ A production-deployed, asynchronous LangGraph agent that conducts deep, recursiv
 * **[🎥 Watch the 60-Second Loom Demo]**(https://www.loom.com/share/ad7905b8e029476882c42ae648d7fa59) - *Shows the decoupled backend agent executing recursive loops and Human-in-the-Loop feedback in real-time.*
 
 > ⚠️ **Note on Live Demo:** This application is currently deployed in a demo phase utilizing free-tier API limits. Because autonomous agents are heavily recursive and token-intensive (especially running a 70B parameter model), the live deployment may occasionally hit HTTP 429 Rate Limits during high traffic. For unrestricted execution, clone the repository and run locally with your own API keys.
+
 > ⏳ **Cold Start Notice:** The backend engine is hosted on Render's free tier, which spins down after 15 minutes of inactivity. If the app hasn't been used recently, the very first request may take 30–50 seconds to 'wake up' the server before execution begins.
-> 
+
 ---
 
 ## 🧠 Cloud Architecture & Deployment
@@ -51,7 +52,7 @@ To bypass the free-tier Render cold-starts or API rate limits of the live demo, 
 
 1. **Clone the repo:**
    ```bash
-   git clone [https://github.com/ParasSondhi/AutonomousResearchAgent](https://github.com/ParasSondhi/AutonomousResearchAgent)
+   git clone [[https://github.com/ParasSondhi/AutonomousResearchAgent](https://github.com/ParasSondhi/AutonomousResearchAgent)]
    cd autonomous-research-agent
     ```
 
