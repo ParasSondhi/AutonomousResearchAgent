@@ -7,18 +7,28 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from src.state import AgentState
 
 # Initialize your LLM
-primary_llm = ChatGroq(
-    model="llama-3.3-70b-versatile", 
+# primary_llm = ChatGroq(
+#     model="llama-3.3-70b-versatile", 
+#     temperature=0.2,
+#     max_retries=1 # Don't waste time retrying if the limit is reached, just fail over
+# )
+primary_llm = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash", 
     temperature=0.2,
-    max_retries=1 # Don't waste time retrying if the limit is reached, just fail over
+    max_retries=1
 )
 
 # 2. Define your Fallback Model (Gemini - Very generous free tier)
 # gemini-1.5-flash is extremely fast and handles complex reasoning well
-fallback_llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash", 
+# fallback_llm = ChatGoogleGenerativeAI(
+#     model="gemini-1.5-flash", 
+#     temperature=0.2,
+#     max_retries=1
+# )
+fallback_llm_llm = ChatGroq(
+    model="llama-3.3-70b-versatile", 
     temperature=0.2,
-    max_retries=1
+    max_retries=1 # Don't waste time retrying if the limit is reached, just fail over
 )
 
 # 3. Create the Resilient Chain
