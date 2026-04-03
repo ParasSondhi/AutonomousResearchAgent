@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import time
 import base64
+from streamlit_pdf_viewer import pdf_viewer
 
 # Point to your local FastAPI backend
 API_URL = "https://autonomousresearchagent.onrender.com"
@@ -133,11 +134,11 @@ elif st.session_state.step == 3:
         # Fetch the actual PDF bytes from FastAPI
         pdf_bytes = requests.get(f"{API_URL}/download/{filename}").content
         
-        # --- NEW: PDF PREVIEW ---
+       # --- NEW: NATIVE PDF PREVIEW ---
         st.write("### Document Preview")
-        base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-        pdf_display = f'<embed src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800" type="application/pdf"></embed>'
-        st.markdown(pdf_display, unsafe_allow_html=True)
+        
+        # This native component bypasses the browser's base64 block
+        pdf_viewer(input=pdf_bytes, width=700)
         # ------------------------
         
         # Display the download button below the preview

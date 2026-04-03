@@ -12,7 +12,7 @@ from src.state import AgentState
 #     temperature=0.2,
 #     max_retries=1 # Don't waste time retrying if the limit is reached, just fail over
 # )
-primary_llm = ChatGoogleGenerativeAI(
+fallback_llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash-lite", 
     temperature=0.2,
     max_retries=1
@@ -25,7 +25,7 @@ primary_llm = ChatGoogleGenerativeAI(
 #     temperature=0.2,
 #     max_retries=1
 # )
-fallback_llm = ChatGroq(
+primary_llm = ChatGroq(
     model="llama-3.3-70b-versatile", 
     temperature=0.2,
     max_retries=1 # Don't waste time retrying if the limit is reached, just fail over

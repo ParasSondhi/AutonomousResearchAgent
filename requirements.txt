@@ -13,3 +13,4 @@ pyyaml
 pdfkit
 streamlit
 requests
+streamlit-pdf-viewer
