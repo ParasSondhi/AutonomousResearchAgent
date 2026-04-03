@@ -98,22 +98,31 @@ elif st.session_state.step == 3:
     pdf_ready = False
     filename = ""
     
+    # --- NEW: WATCHDOG TIMER ---
+    timeout_seconds = 180 # 3 minutes maximum wait time
+    start_time = time.time()
+    
     # This spinner will stay on the screen while the while-loop runs
     with st.spinner("Waiting for the final PDF... This may take a minute."):
         while not pdf_ready:
+            
+            # 1. Check if we have been waiting too long!
+            if time.time() - start_time > timeout_seconds:
+                st.error("🚦 Currently due to heavy traffic, the demo version is not working. Please try again later.")
+                break # Kill the infinite loop
+                
             try:
-                # Ask FastAPI: "Is it done yet?"
+                # 2. Ask FastAPI: "Is it done yet?"
                 res = requests.get(f"{API_URL}/status/{st.session_state.thread_id}").json()
                 
                 if res.get("status") == "completed":
                     pdf_ready = True
                     filename = res.get("filename")
                 elif res.get("status") == "error":
-                    # BREAK THE LOOP AND SHOW YOUR MESSAGE
                     st.error("🚦 Currently due to heavy traffic, the demo version is not working. Please try again later.")
                     break
                 else:
-                    time.sleep(3) # Wait 3 seconds before asking again
+                    time.sleep(3) 
             except Exception:
                 time.sleep(3)
                 
