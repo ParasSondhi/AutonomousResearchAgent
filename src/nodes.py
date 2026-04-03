@@ -26,8 +26,8 @@ primary_llm = ChatGroq(
     temperature=0.2,
     max_retries=1 # Don't waste time retrying if the limit is reached, just fail over
 )
-fallback_llm = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite", 
+fallback_llm = ChatGroq(
+    model="llama-3.1-8b-instant", 
     temperature=0.2,
     max_retries=1
 )
