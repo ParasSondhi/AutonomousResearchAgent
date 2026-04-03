@@ -30,6 +30,7 @@ if st.session_state.step == 1:
         user_email = st.text_input("Your Email Address:") if want_email else None
         
         submit_button = st.form_submit_button(label="Start Research")
+        st.caption("⏳ *Note: This project runs on a free cloud tier. The very first search may take 40-50 seconds to wake the server up.*")
         
     if submit_button:
         if topic.strip(): 
