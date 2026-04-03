@@ -9,8 +9,8 @@ A production-deployed, asynchronous LangGraph agent that conducts deep, recursiv
 5. The final report is automatically delivered directly to your email inbox the moment it is finished.
 
 ### 🔗 Live Deployment & Demo
-* **[Live Web App]**(https://getwellresearchedreport.streamlit.app/)
-* **[🎥 Watch the 60-Second Loom Demo]**(https://www.loom.com/share/ad7905b8e029476882c42ae648d7fa59) - *Shows the decoupled backend agent executing recursive loops and Human-in-the-Loop feedback in real-time.*
+* **[Live Web App](https://getwellresearchedreport.streamlit.app/)**
+* **[🎥 Watch the 60-Second Loom Demo](https://www.loom.com/share/ad7905b8e029476882c42ae648d7fa59)** - *Shows the decoupled backend agent executing recursive loops and Human-in-the-Loop feedback in real-time.*
 
 > ⚠️ **Note on Live Demo:** This application is currently deployed in a demo phase utilizing free-tier API limits. Because autonomous agents are heavily recursive and token-intensive (especially running a 70B parameter model), the live deployment may occasionally hit HTTP 429 Rate Limits during high traffic. For unrestricted execution, clone the repository and run locally with your own API keys.
 
