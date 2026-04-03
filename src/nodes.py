@@ -16,7 +16,7 @@ primary_llm = ChatGroq(
 # 2. Define your Fallback Model (Gemini - Very generous free tier)
 # gemini-1.5-flash is extremely fast and handles complex reasoning well
 fallback_llm = ChatGoogleGenerativeAI(
-    model="gemini-2.0-flash", 
+    model="gemini-1.5-flash", 
     temperature=0.2,
     max_retries=1
 )
