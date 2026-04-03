@@ -5,7 +5,8 @@ A production-deployed, asynchronous LangGraph agent that conducts deep, recursiv
 **The Workflow:**
 1. You provide a research topic.
 2. The agent instantly formulates a multi-step research strategy and halts to ask for your specific feedback or direction.
-3. Once you approve the strategy, **you can close the tab.** 4. The agent's backend engine takes over, autonomously scraping the web, evaluating the data, and synthesizing a highly structured Markdown and PDF report.
+3. Once you approve the strategy, **you can close the tab.**
+4. The agent's backend engine takes over, autonomously scraping the web, evaluating the data, and synthesizing a highly structured Markdown and PDF report.
 5. The final report is automatically delivered directly to your email inbox the moment it is finished.
 
 ### 🔗 Live Deployment & Demo
