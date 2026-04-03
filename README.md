@@ -52,7 +52,7 @@ To bypass the free-tier Render cold-starts or API rate limits of the live demo, 
 
 1. **Clone the repo:**
    ```bash
-   git clone [[https://github.com/ParasSondhi/AutonomousResearchAgent](https://github.com/ParasSondhi/AutonomousResearchAgent)]
+   git clone https://github.com/ParasSondhi/AutonomousResearchAgent
    cd autonomous-research-agent
     ```
 
