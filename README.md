@@ -7,8 +7,7 @@ A production-deployed, asynchronous LangGraph agent that conducts deep, recursiv
 2. The agent instantly formulates a multi-step research strategy and halts to ask for your specific feedback or direction.
 3. Once you approve the strategy, **you can close the tab.**
 4. The agent's backend engine takes over, autonomously scraping the web, evaluating the data, and synthesizing a highly structured Markdown and PDF report.
-5. The final report is automatically delivered directly to your email inbox the moment it is finished.
-
+   
 ### 🔗 Live Deployment & Demo
 * **[Live Web App](https://getwellresearchedreport.streamlit.app/)**
 * **[🎥 Watch the 60-Second Loom Demo](https://www.loom.com/share/ad7905b8e029476882c42ae648d7fa59)** - *Shows the decoupled backend agent executing recursive loops and Human-in-the-Loop feedback in real-time.*
@@ -24,7 +23,7 @@ A production-deployed, asynchronous LangGraph agent that conducts deep, recursiv
 This is not a monolithic script; it is built with a decoupled architecture to handle heavy LLM reasoning without freezing the client interface.
 
 * **The Frontend (Streamlit Cloud):** Provides a lightweight, clean UI to handle user intent, capture Human-in-the-Loop (HITL) feedback, and trigger the remote agent.
-* **The Hosted Brain (Render Cloud):** The actual autonomous LangGraph engine is deployed as a standalone backend service on Render. It handles the heavy state management, API rate limits, recursive scraping loops, and final email execution asynchronously.
+* **The Hosted Brain (Render Cloud):** The actual autonomous LangGraph engine is deployed as a standalone backend service on Render. It handles the heavy state management, API rate limits, and recursive scraping loops.
 
 ---
 
@@ -64,8 +63,6 @@ To bypass the free-tier Render cold-starts or API rate limits of the live demo, 
    ```bash
    GROQ_API_KEY="your_groq_key"
    TAVILY_API_KEY="your_tavily_key"
-   EMAIL_ADDRESS="your_sender_email@gmail.com"
-   APP_PASSWORD="your_app_password" # Note: Must be a 16-digit App Password generated from your Google Account Security settings
     ```
 
 3. **Install dependencies and run:**
