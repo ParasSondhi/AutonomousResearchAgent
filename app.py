@@ -24,41 +24,29 @@ if st.session_state.step == 1:
     with st.form(key="research_form"):
         topic = st.text_input("Enter a research topic:")
         
-        # --- EMAIL OPT-IN ---
-        st.write("---")
-        want_email = st.checkbox("Email me a copy of the final report")
-        user_email = st.text_input("Your Email Address:") if want_email else None
-        
         submit_button = st.form_submit_button(label="Start Research")
         st.caption("⏳ *Note: This project runs on a free cloud tier. The very first search may take 40-50 seconds to wake the server up.*")
         
     if submit_button:
         if topic.strip(): 
-            if want_email and not user_email:
-                st.warning("Please enter your email address if you want a copy.")
-            else:
-                with st.spinner("Planning search strategy..."):
-                    payload = {"topic": topic, "email": user_email}
+            with st.spinner("Planning search strategy..."):
+                # Removed email from the payload
+                payload = {"topic": topic}
+                
+                try:
+                    raw_response = requests.post(f"{API_URL}/start-research", json=payload)
                     
-                    # 1. Make the request WITHOUT instantly trying to parse JSON
-                    try:
-                        raw_response = requests.post(f"{API_URL}/start-research", json=payload)
-                        
-                        # 2. If the backend succeeds (Both APIs didn't crash)
-                        if raw_response.status_code == 200:
-                            response = raw_response.json()
-                            st.session_state.thread_id = response["thread_id"]
-                            st.session_state.queries = response["proposed_queries"]
-                            st.session_state.step = 2
-                            st.rerun()
-                        
-                        # 3. THE NEW FALLBACK: If both APIs hit limits and the backend crashes
-                        else:
-                            st.error("🚦 Currently due to heavy traffic, the demo version is not working. Please try again later.")
-                    
-                    # 4. In case the FastAPI server is completely offline/not running
-                    except requests.exceptions.ConnectionError:
-                        st.error("🔌 The backend server is currently offline. Please try again later.")
+                    if raw_response.status_code == 200:
+                        response = raw_response.json()
+                        st.session_state.thread_id = response["thread_id"]
+                        st.session_state.queries = response["proposed_queries"]
+                        st.session_state.step = 2
+                        st.rerun()
+                    else:
+                        st.error("🚦 Currently due to heavy traffic, the demo version is not working. Please try again later.")
+                
+                except requests.exceptions.ConnectionError:
+                    st.error("🔌 The backend server is currently offline. Please try again later.")
         else:
             st.warning("Please enter a topic before searching.")
 
