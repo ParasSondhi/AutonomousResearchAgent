@@ -1,3 +1,4 @@
+import yaml
 from typing import List
 from pydantic import BaseModel, Field
 from langchain_core.messages import SystemMessage, HumanMessage
@@ -11,6 +12,18 @@ llm = ChatGroq(
     temperature=0.2,
     max_retries=2 # Let LangChain attempt a quick retry if there is a network hiccup
 )
+try:
+    with open("config.yaml", "r") as file:
+        config = yaml.safe_load(file)
+        behavior = config.get("agent_behavior", {})
+        TARGET_AUDIENCE = behavior.get("target_audience", "general reader")
+        OUTPUT_FORMAT = behavior.get("output_format", "standard text")
+        DEPTH = behavior.get("depth", "standard")
+except FileNotFoundError:
+    print("Warning: config.yaml not found. Using default settings.")
+    TARGET_AUDIENCE = "general reader"
+    OUTPUT_FORMAT = "standard text"
+    DEPTH = "standard"
 
 # Define the expected JSON structure for the Evaluator
 class EvaluatorOutput(BaseModel):
@@ -81,7 +94,14 @@ def researcher_node(state: AgentState) -> AgentState:
         state['clarified_intent'] = revised_plan.clarified_intent
 
     # 2. EXECUTE SEARCHES
-    search_tool = TavilySearchResults(max_results=3)
+    if DEPTH == "comprehensive":
+        result_limit = 5
+    elif DEPTH == "shallow":
+        result_limit = 1
+    else:
+        result_limit = 3 # The "standard" default
+        
+    search_tool = TavilySearchResults(max_results=result_limit)
     all_web_content = []
     
     for query in current_queries:
@@ -148,8 +168,8 @@ def analyzer_node(state: AgentState) -> AgentState:
     
     compiled_research = "\n\n".join(state['raw_web_data'])
     
-    sys_msg = SystemMessage(content="""You are an elite research analyst. 
-    Write a highly structured, professional Markdown report based strictly on the provided research data.
+    sys_msg = SystemMessage(content="""You are an elite research analyst. Your target audience is a {TARGET_AUDIENCE}
+    Write a highly structured {OUTPUT_FORMAT} based strictly on the provided research data.
     Use clear headings, bullet points, and maintain an objective tone. 
     Do not invent facts; rely only on the provided text.""")
     
